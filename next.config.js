@@ -30,5 +30,11 @@ module.exports = (phase) => {
     images: {
       domains: ["res.cloudinary.com"],
     },
+    SMTP_HOST: "smtp.mailtrap.io",
+    SMTP_PORT: "2525",
+    SMTP_USER: "318ae13e7afbe9",
+    pSMTP_PASSWORD: "16a8204064797d",
+    STMP_FROM_NAME: "BookIT",
+    STMP_FROM_EMAIL: "noreply@bookit.com",
   }
 }
