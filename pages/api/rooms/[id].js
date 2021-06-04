@@ -1,23 +1,23 @@
-import nc from "next-connect"
-import connectDB from "../../../config/connectDB"
+import nc from "next-connect";
+import connectDB from "../../../config/connectDB";
 
 import {
   getSingleRoom,
   updateRoom,
   deleteRoom,
-} from "../../../controllers/roomControllers"
+} from "../../../controllers/roomControllers";
 
-import onError from "../../../middlewares/errors"
-import { isAuthenticatedUser, authorizeRoles } from "../../../middlewares/auth"
+import onError from "../../../middlewares/errors";
+import { isAuthenticatedUser } from "../../../middlewares/auth";
 
-const handler = nc({ onError })
+const handler = nc({ onError });
 
-connectDB()
+connectDB();
 
-handler.get(getSingleRoom)
+handler.get(getSingleRoom);
 
-handler.use(isAuthenticatedUser, authorizeRoles("admin")).put(updateRoom)
+handler.use(isAuthenticatedUser).put(updateRoom);
 
-handler.use(isAuthenticatedUser, authorizeRoles("admin")).delete(deleteRoom)
+handler.use(isAuthenticatedUser).delete(deleteRoom);
 
-export default handler
+export default handler;
