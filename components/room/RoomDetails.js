@@ -12,7 +12,7 @@ import { Carousel } from "react-bootstrap"
 
 import {
   checkBooking,
-  // getBookedDates,
+  getBookedDates,
 } from "../../redux/actions/bookingActions"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
@@ -32,6 +32,14 @@ const RoomDetails = () => {
 
   const { user } = useSelector((state) => state.loadUser)
   const { room, error } = useSelector((state) => state.roomDetails)
+  const bookedDates = useSelector((state) => state.bookedDates)
+  const { dates } = bookedDates
+
+  const excludedDates = []
+
+  dates.map((date) => {
+    excludedDates.push(new Date(date))
+  })
 
   const bookingCheck = useSelector((state) => state.bookingCheck)
   const { loading: bookingLoading, available } = bookingCheck
@@ -61,6 +69,12 @@ const RoomDetails = () => {
       )
     }
   }
+
+  useEffect(() => {
+    dispatch(getBookedDates(id))
+    toast.error(error)
+    dispatch(clearErrors())
+  }, [dispatch, id])
 
   const newBookingHandler = async () => {
     const bookingData = {
@@ -154,6 +168,7 @@ const RoomDetails = () => {
                 startDate={checkInDate}
                 endDate={checkOutDate}
                 minDate={new Date()}
+                excludeDates={excludedDates}
                 selectsRange
                 inline
               />
