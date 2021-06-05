@@ -95,3 +95,9 @@ export const checkBookedDates = catchAsyncErrors(async (req, res) => {
 
   res.status(200).json({ success: true, bookedDates })
 })
+
+export const myBookings = catchAsyncErrors(async (req, res) => {
+  const bookings = await Booking.find({ user: req.user._id })
+
+  res.status(200).json({ success: true, bookings })
+})
