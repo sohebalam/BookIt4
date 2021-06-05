@@ -42,6 +42,8 @@ const RoomDetails = () => {
     if (checkInDate && checkOutDate) {
       // Calclate days of stay
 
+      //   console.log(checkInDate.toISOString(), checkOutDate.toISOString());
+
       const days = Math.floor(
         (new Date(checkOutDate) - new Date(checkInDate)) / 86400000 + 1
       );
@@ -53,8 +55,38 @@ const RoomDetails = () => {
       //   );
     }
   };
-
   const { id } = router.query;
+  console.log(id);
+  const newBookingHandler = async () => {
+    const bookingData = {
+      room: id,
+      checkInDate,
+      checkOutDate,
+      daysOfStay,
+      amountPaid: 90,
+      paymentInfo: {
+        id: "STRIPE_PAYMENT_ID",
+        status: "STRIPE_PAYMENT_STATUS",
+      },
+    };
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `/api/bookings/bookings`,
+        bookingData,
+        config
+      );
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -148,6 +180,13 @@ const RoomDetails = () => {
                   Pay - ${daysOfStay * room.pricePerNight}
                 </button>
               )} */}
+
+              <button
+                className="btn btn-block py-3 booking-btn"
+                onClick={newBookingHandler}
+              >
+                Pay
+              </button>
             </div>
           </div>
         </div>

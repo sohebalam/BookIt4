@@ -50,5 +50,5 @@ const bookingSchema = new mongoose.Schema({
 
 bookingSchema.plugin(timeZone);
 
-export default mongoose.models.bookingSchema ||
+export default mongoose.models.Booking ||
   mongoose.model("Booking", bookingSchema);
