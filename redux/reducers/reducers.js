@@ -2,6 +2,7 @@ import { combineReducers } from "redux"
 import {
   bookedDatesReducer,
   bookingCheckReducer,
+  bookingDetailsReducer,
   bookingsReducer,
 } from "./bookingReducers"
 import { allRoomsReducer, roomDetailsReducer } from "./roomReducers"
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   bookingCheck: bookingCheckReducer,
   bookedDates: bookedDatesReducer,
   bookings: bookingsReducer,
+  bookingDetails: bookingDetailsReducer,
 })
 
 export default reducer

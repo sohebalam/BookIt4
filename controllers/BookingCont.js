@@ -1,5 +1,5 @@
 import Booking from "../models/bookingModel"
-
+import Room from "../models/roomModel"
 import ErrorHandler from "../utils/errorHandler"
 import catchAsyncErrors from "../middlewares/catchAsyncErrors"
 
@@ -100,4 +100,33 @@ export const myBookings = catchAsyncErrors(async (req, res) => {
   const bookings = await Booking.find({ user: req.user._id })
 
   res.status(200).json({ success: true, bookings })
+})
+
+export const getBookingDetails = catchAsyncErrors(async (req, res) => {
+  const bookingdetail = await Booking.findById(req.query.id)
+    .populate({
+      path: "rooms",
+      select: "name pricePerNight images",
+    })
+    .populate({
+      path: "user",
+      select: "name email",
+    })
+
+  const room = await Room.findById(bookingdetail.room)
+
+  // const { name, pricePerNight, images, _id } = room2
+
+  // const room = { _id, name, pricePerNight, images }
+
+  // console.log(name, pricePerNight, images)
+  // console.log(room)
+
+  let booking = Object.assign(bookingdetail, { room })
+  // console.log(booking)
+
+  res.status(200).json({
+    success: true,
+    booking,
+  })
 })
