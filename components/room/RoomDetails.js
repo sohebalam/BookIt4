@@ -1,43 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import Image from "next/image";
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/router"
+import Head from "next/head"
+import Image from "next/image"
 
-import RoomFeatures from "./RoomFeatures";
+import RoomFeatures from "./RoomFeatures"
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
-import { Carousel } from "react-bootstrap";
+import { Carousel } from "react-bootstrap"
 
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-// import { clearErrors } from "../../redux/actions/roomActions";
+import {
+  checkBooking,
+  // getBookedDates,
+} from "../../redux/actions/bookingActions"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "react-toastify"
+import { clearErrors } from "../../redux/actions/roomActions"
 
-// import {
-//   checkBooking,
-//   getBookedDates,
-// } from "../../redux/actions/bookingActions";
-// import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingConstants";
+import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingTypes"
 
-import axios from "axios";
+import axios from "axios"
 
 const RoomDetails = () => {
-  const [checkInDate, setCheckInDate] = useState();
-  const [checkOutDate, setCheckOutDate] = useState();
-  const [daysOfStay, setDaysOfStay] = useState();
+  const [checkInDate, setCheckInDate] = useState()
+  const [checkOutDate, setCheckOutDate] = useState()
+  const [daysOfStay, setDaysOfStay] = useState()
 
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const dispatch = useDispatch()
+  const router = useRouter()
 
-  const { user } = useSelector((state) => state.loadUser);
-  const { room, error } = useSelector((state) => state.roomDetails);
+  const { user } = useSelector((state) => state.loadUser)
+  const { room, error } = useSelector((state) => state.roomDetails)
+
+  const bookingCheck = useSelector((state) => state.bookingCheck)
+  const { loading: bookingLoading, available } = bookingCheck
+  // console.log(bookingCheck)
+
+  const { id } = router.query
 
   const onChange = (dates) => {
-    const [checkInDate, checkOutDate] = dates;
+    const [checkInDate, checkOutDate] = dates
 
-    setCheckInDate(checkInDate);
-    setCheckOutDate(checkOutDate);
+    setCheckInDate(checkInDate)
+    setCheckOutDate(checkOutDate)
 
     if (checkInDate && checkOutDate) {
       // Calclate days of stay
@@ -46,17 +52,16 @@ const RoomDetails = () => {
 
       const days = Math.floor(
         (new Date(checkOutDate) - new Date(checkInDate)) / 86400000 + 1
-      );
+      )
 
-      setDaysOfStay(days);
+      setDaysOfStay(days)
 
-      //   dispatch(
-      //     checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
-      //   );
+      dispatch(
+        checkBooking(id, checkInDate.toISOString(), checkOutDate.toISOString())
+      )
     }
-  };
-  const { id } = router.query;
-  console.log(id);
+  }
+
   const newBookingHandler = async () => {
     const bookingData = {
       room: id,
@@ -68,25 +73,25 @@ const RoomDetails = () => {
         id: "STRIPE_PAYMENT_ID",
         status: "STRIPE_PAYMENT_STATUS",
       },
-    };
+    }
 
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
-      };
+      }
       const { data } = await axios.post(
         `/api/bookings/bookings`,
         bookingData,
         config
-      );
+      )
 
-      console.log(data);
+      console.log(data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   return (
     <>
@@ -153,7 +158,7 @@ const RoomDetails = () => {
                 inline
               />
 
-              {/* {available === true && (
+              {available === true && (
                 <div className="alert alert-success my-3 font-weight-bold">
                   Room is available. Book now.
                 </div>
@@ -163,36 +168,36 @@ const RoomDetails = () => {
                 <div className="alert alert-danger my-3 font-weight-bold">
                   Room not available. Try different dates.
                 </div>
-              )} */}
+              )}
 
-              {/* {available && !user && (
+              {available && !user && (
                 <div className="alert alert-danger my-3 font-weight-bold">
                   Login to book room.
                 </div>
-              )} */}
+              )}
 
-              {/* {available && user && (
+              {available && user && (
                 <button
                   className="btn btn-block py-3 booking-btn"
-                  onClick={() => bookRoom(room._id, room.pricePerNight)}
-                  disabled={bookingLoading || paymentLoading ? true : false}
+                  onClick={newBookingHandler}
+                  // disabled={bookingLoading || paymentLoading ? true : false}
                 >
                   Pay - ${daysOfStay * room.pricePerNight}
                 </button>
-              )} */}
+              )}
 
-              <button
+              {/* <button
                 className="btn btn-block py-3 booking-btn"
                 onClick={newBookingHandler}
               >
                 Pay
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default RoomDetails;
+export default RoomDetails

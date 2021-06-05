@@ -1,7 +1,7 @@
-import Booking from "../models/bookingModel";
+import Booking from "../models/bookingModel"
 
-import ErrorHandler from "../utils/errorHandler";
-import catchAsyncErrors from "../middlewares/catchAsyncErrors";
+import ErrorHandler from "../utils/errorHandler"
+import catchAsyncErrors from "../middlewares/catchAsyncErrors"
 
 // Setting up cloudinary config
 
@@ -37,7 +37,7 @@ export const newBooking = catchAsyncErrors(async (req, res) => {
     daysOfStay,
     amountPaid,
     paymentInfo,
-  } = req.body;
+  } = req.body
 
   const booking = await Booking.create({
     room,
@@ -48,10 +48,46 @@ export const newBooking = catchAsyncErrors(async (req, res) => {
     amountPaid,
     paymentInfo,
     paidAt: Date.now(),
-  });
+  })
 
   res.status(200).json({
     success: true,
     booking,
-  });
-});
+  })
+})
+
+export const checkRoomAvail = catchAsyncErrors(async (req, res) => {
+  let { roomId, checkInDate, checkOutDate } = req.query
+
+  checkInDate = new Date(checkInDate)
+  checkOutDate = new Date(checkOutDate)
+
+  const bookings = await Booking.find({
+    room: roomId,
+    $and: [
+      {
+        checkInDate: {
+          $lte: checkOutDate,
+        },
+      },
+      {
+        checkOutDate: {
+          $gte: checkInDate,
+        },
+      },
+    ],
+  })
+
+  let isAvailable
+
+  if (bookings && bookings.length === 0) {
+    isAvailable = true
+  } else {
+    isAvailable = false
+  }
+
+  res.status(200).json({
+    success: true,
+    isAvailable,
+  })
+})
