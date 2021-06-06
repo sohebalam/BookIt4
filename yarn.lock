@@ -1602,10 +1602,10 @@
     "readable-stream" "^2.0.0"
     "stream-shift" "^1.0.0"
 
-"easyinvoice@^1.0.112":
-  "integrity" "sha512-vm7B/OT53/ys/DwlVx6EMVljFcF8pKE9CYku7s+5bxC0N4Ep3+kWgikWy5ZRukpYgFwvkBrGeu3kM3oe6ot8Rg=="
-  "resolved" "https://registry.npmjs.org/easyinvoice/-/easyinvoice-1.0.127.tgz"
-  "version" "1.0.127"
+"easyinvoice@^1.0.139":
+  "integrity" "sha512-DI4GX/B11shpWHFXA6B3pCX+xYzyPOc0qd4WX3FqHHgcfQLqUZq4a5+X2E8n2LIX/7mUxxLni/OfZu8CAhccZw=="
+  "resolved" "https://registry.npmjs.org/easyinvoice/-/easyinvoice-1.0.139.tgz"
+  "version" "1.0.139"
   dependencies:
     "axios" "^0.21.1"
     "file-saver" "^2.0.5"

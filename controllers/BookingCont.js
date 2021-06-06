@@ -98,6 +98,14 @@ export const checkBookedDates = catchAsyncErrors(async (req, res) => {
 
 export const myBookings = catchAsyncErrors(async (req, res) => {
   const bookings = await Booking.find({ user: req.user._id })
+    .populate({
+      path: "room",
+      select: "name pricePerNight images",
+    })
+    .populate({
+      path: "user",
+      select: "name email",
+    })
 
   res.status(200).json({ success: true, bookings })
 })
