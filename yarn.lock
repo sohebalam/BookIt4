@@ -243,7 +243,7 @@
   "resolved" "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   "version" "1.2.3"
 
-"@stripe/stripe-js@^1.14.0":
+"@stripe/stripe-js@^1.15.0":
   "integrity" "sha512-KQsNPc+uVQkc8dewwz1A6uHOWeU2cWoZyNIbsx5mtmperr5TPxw4u8M20WOa22n6zmIOh/zLdzEe8DYK/0IjBw=="
   "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-1.15.0.tgz"
   "version" "1.15.0"
@@ -4841,10 +4841,10 @@
   dependencies:
     "ansi-regex" "^5.0.0"
 
-"stripe@^8.138.0":
-  "integrity" "sha512-48YMLupzvDyVZUs37xUBd1SF0E3B77ahOTLhL7ycVwZqwjlQ30K7iHTejIAUdtEnWaNkaOz0LX6jHeR49IulRQ=="
-  "resolved" "https://registry.npmjs.org/stripe/-/stripe-8.150.0.tgz"
-  "version" "8.150.0"
+"stripe@^8.153.0":
+  "integrity" "sha512-Pp8QyhFURPop35PIV0ipEAhhJzIK1+5OIzcVUNj+ZYhUnPawSIhmNxQYXAmGBTMPMAV4xLVVN9ggFuKb6nA/ZQ=="
+  "resolved" "https://registry.npmjs.org/stripe/-/stripe-8.153.0.tgz"
+  "version" "8.153.0"
   dependencies:
     "@types/node" ">=8.1.0"
     "qs" "^6.6.0"

@@ -20,12 +20,15 @@ import { clearErrors } from "../../redux/actions/roomActions"
 
 import { CHECK_BOOKING_RESET } from "../../redux/constants/bookingTypes"
 
+import getStripe from "../../utils/getStripe"
+
 import axios from "axios"
 
 const RoomDetails = () => {
   const [checkInDate, setCheckInDate] = useState()
   const [checkOutDate, setCheckOutDate] = useState()
   const [daysOfStay, setDaysOfStay] = useState()
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   const dispatch = useDispatch()
   const router = useRouter()
@@ -69,11 +72,30 @@ const RoomDetails = () => {
       )
     }
   }
+  const bookRoom = async (id, pricePerNight) => {
+    setPaymentLoading(true)
+    const amount = pricePerNight * daysOfStay
+    try {
+      const link = `/api/checkout/${id}?checkInDate=${checkInDate.toISOString()}&checkOutDate=${checkOutDate.toISOString()}&daysOfStay=${daysOfStay}`
+      const { data } = await axios.get(link, { params: { amount } })
 
+      const stripe = await getStripe()
+
+      stripe.redirectToCheckout({ sessionId: data.id })
+      setPaymentLoading(false)
+    } catch (error) {
+      setPaymentLoading(false)
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
   useEffect(() => {
     dispatch(getBookedDates(id))
     toast.error(error)
     dispatch(clearErrors())
+    return () => {
+      dispatch({ type: CHECK_BOOKING_RESET })
+    }
   }, [dispatch, id])
 
   const newBookingHandler = async () => {
@@ -194,10 +216,10 @@ const RoomDetails = () => {
               {available && user && (
                 <button
                   className="btn btn-block py-3 booking-btn"
-                  onClick={newBookingHandler}
-                  // disabled={bookingLoading || paymentLoading ? true : false}
+                  onClick={() => bookRoom(room._id, room.pricePerNight)}
+                  disabled={bookingLoading || paymentLoading ? true : false}
                 >
-                  Pay - ${daysOfStay * room.pricePerNight}
+                  Pay - £{daysOfStay * room.pricePerNight}
                 </button>
               )}
 
