@@ -12,6 +12,7 @@ module.exports = (phase) => {
           "pk_test_51H3gVIARrn8JZG3gx2b4WTqj6pl7AsVTUfY3e8u8u8vdRnZ4uCGrFOOD0wbm1lubTqMbQxlZtpPIjx49EXY8MNpo00BzYLddFg",
         STRIPE_SECRET_KEY:
           "sk_test_51H3gVIARrn8JZG3gwQWW62G9iesk1qzmlKgQCkPbGSRbPLDefCHCysoUt6g9fU8CtRvUMLVygSry0oJloByXisFl00ZyhHxNGL",
+        STRIPE_WEBHOOK_SECRET: "whsec_bHeASlKGX6u1jRhXFLjEVrgBwIfJpFnC",
       },
       images: {
         domains: ["res.cloudinary.com"],
