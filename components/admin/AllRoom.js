@@ -2,15 +2,13 @@ import React, { useEffect } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 
-import { useRouter } from "next/router"
-
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
 import { MDBDataTable } from "mdbreact"
 import Loader from "../layout/Loader"
 
-import { allAdminRooms, clearErrors } from "../../redux/actions/roomActions"
+import { adminRooms, clearErrors } from "../../redux/actions/roomActions"
 
 const AllRoom = () => {
   const dispatch = useDispatch()
@@ -20,7 +18,7 @@ const AllRoom = () => {
   const { loading, error, rooms } = allAdminRooms
 
   useEffect(() => {
-    dispatch(allAdminRooms())
+    dispatch(adminRooms())
     if (error) {
       toast.error(error)
       dispatch(clearErrors())
@@ -31,23 +29,23 @@ const AllRoom = () => {
     const data = {
       columns: [
         {
-          label: "Booking ID",
+          label: "Room ID",
           field: "id",
           sort: "asc",
         },
         {
-          label: "Check In",
-          field: "checkIn",
+          label: "Name",
+          field: "name",
           sort: "asc",
         },
         {
-          label: "Check Out",
-          field: "checkOut",
+          label: "Price /Night",
+          field: "price",
           sort: "asc",
         },
         {
-          label: "Amount Paid",
-          field: "amount",
+          label: "Category",
+          field: "category",
           sort: "asc",
         },
         {
@@ -58,27 +56,24 @@ const AllRoom = () => {
       ],
       rows: [],
     }
-    bookings &&
-      bookings.forEach((booking) => {
-        // console.log(booking)
+    rooms &&
+      rooms.forEach((room) => {
+        // console.log(room)
         data.rows.push({
-          id: booking._id,
-          checkIn: new Date(booking.checkInDate).toLocaleString("en-US"),
-          checkOut: new Date(booking.checkOutDate).toLocaleString("en-US"),
-          amount: `$${booking.amountPaid}`,
+          id: room._id,
+          name: room.name,
+          price: `$${room.pricePerNight}`,
+          category: room.category,
           actions: (
             <>
               {" "}
-              <Link href={`/bookings/${booking._id}`}>
+              <Link href={`/admin/rooms/${room._id}`}>
                 <a className="btn btn-primary">
-                  <i className="fa fa-eye"></i>
+                  <i className="fa fa-pencil"></i>
                 </a>
               </Link>
-              <button
-                className="btn btn-success mx-2"
-                onClick={() => downloadInvoice(booking)}
-              >
-                <i className="fa fa-download"></i>
+              <button className="btn btn-danger mx-2">
+                <i className="fa fa-trash"></i>
               </button>
             </>
           ),
@@ -88,8 +83,15 @@ const AllRoom = () => {
   }
 
   return (
-    <div>
-      <h1>AllRoom </h1>
+    <div className="container container-fluid">
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1 className="my-5">{`${rooms && rooms.length} Rooms`}</h1>
+          <MDBDataTable data={setRooms()} className="px-3" bordered striped />
+        </>
+      )}
     </div>
   )
 }

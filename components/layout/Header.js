@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
+import React, { useEffect } from "react"
+import Link from "next/link"
 
-import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../redux/actions/userActions";
-import { signOut } from "next-auth/client";
+import { useDispatch, useSelector } from "react-redux"
+import { loadUser } from "../../redux/actions/userActions"
+import { signOut } from "next-auth/client"
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { user, loading } = useSelector((state) => state.loadUser);
+  const { user, loading } = useSelector((state) => state.loadUser)
 
   useEffect(() => {
     if (!user) {
-      dispatch(loadUser());
+      dispatch(loadUser())
     }
-  }, [dispatch, user]);
+  }, [dispatch, user])
 
   return (
     <nav className="navbar row justify-content-center sticky-top">
@@ -57,23 +57,9 @@ const Header = () => {
               >
                 {user.role === "admin" && (
                   <>
-                    <Link href="/admin/rooms">
+                    <Link href="/admin/rooms/rooms">
                       <a className="dropdown-item">Rooms</a>
                     </Link>
-
-                    <Link href="/admin/bookings">
-                      <a className="dropdown-item">Bookings</a>
-                    </Link>
-
-                    <Link href="/admin/users">
-                      <a className="dropdown-item">Users</a>
-                    </Link>
-
-                    <Link href="/admin/reviews">
-                      <a className="dropdown-item">Reviews</a>
-                    </Link>
-
-                    <hr />
                   </>
                 )}
 
@@ -107,7 +93,7 @@ const Header = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

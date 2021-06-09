@@ -110,7 +110,7 @@ export const checkReviewAvailability = (roomId) => async (dispatch) => {
   }
 }
 
-export const allAdminRooms = () => async (dispatch) => {
+export const adminRooms = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_ROOMS_REQUEST })
 
