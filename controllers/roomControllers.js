@@ -1,5 +1,7 @@
 import Room from "../models/roomModel"
 
+import Booking from "../models/bookingModel"
+
 import cloudinary from "cloudinary"
 
 import ErrorHandler from "../utils/errorHandler"
@@ -136,7 +138,7 @@ const deleteRoom = catchAsyncErrors(async (req, res) => {
 })
 
 // Create a new review   =>   /api/reviews
-const createRoomReview = catchAsyncErrors(async (req, res) => {
+export const createRoomReview = catchAsyncErrors(async (req, res) => {
   const { rating, comment, roomId } = req.body
 
   const review = {
@@ -175,8 +177,7 @@ const createRoomReview = catchAsyncErrors(async (req, res) => {
   })
 })
 
-// Check Review Availability   =>   /api/reviews/check_review_availability
-const checkReviewAvailability = catchAsyncErrors(async (req, res) => {
+export const checkReviewAuth = catchAsyncErrors(async (req, res) => {
   const { roomId } = req.query
 
   const bookings = await Booking.find({ user: req.user._id, room: roomId })
@@ -184,73 +185,12 @@ const checkReviewAvailability = catchAsyncErrors(async (req, res) => {
   let isReviewAvailable = false
   if (bookings.length > 0) isReviewAvailable = true
 
-  res.status(200).json({
-    success: true,
-    isReviewAvailable,
-  })
+  res.status(200).json({ success: true, isReviewAvailable })
 })
 
-// Get all rooms - ADMIN   =>   /api/admin/rooms
-const allAdminRooms = catchAsyncErrors(async (req, res) => {
+export const allAdminRooms = catchAsyncErrors(async (req, res) => {
   const rooms = await Room.find()
-
-  res.status(200).json({
-    success: true,
-    rooms,
-  })
+  res.status(200).json({ success: true, rooms })
 })
 
-// Get all room reviews - ADMIN   =>   /api/reviews
-const getRoomReviews = catchAsyncErrors(async (req, res) => {
-  const room = await Room.findById(req.query.id)
-
-  res.status(200).json({
-    success: true,
-    reviews: room.reviews,
-  })
-})
-
-// Delete room review - ADMIN   =>   /api/reviews
-const deleteReview = catchAsyncErrors(async (req, res) => {
-  const room = await Room.findById(req.query.roomId)
-
-  const reviews = room.reviews.filter(
-    (review) => review._id.toString() !== req.query.id.toString()
-  )
-
-  const numOfReviews = reviews.length
-
-  const ratings =
-    room.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length
-
-  await Room.findByIdAndUpdate(
-    req.query.roomId,
-    {
-      reviews,
-      ratings,
-      numOfReviews,
-    },
-    {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    }
-  )
-
-  res.status(200).json({
-    success: true,
-  })
-})
-
-export {
-  allRooms,
-  newRoom,
-  getSingleRoom,
-  updateRoom,
-  deleteRoom,
-  createRoomReview,
-  checkReviewAvailability,
-  allAdminRooms,
-  getRoomReviews,
-  deleteReview,
-}
+export { allRooms, newRoom, getSingleRoom, updateRoom, deleteRoom }

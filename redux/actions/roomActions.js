@@ -1,9 +1,18 @@
 import axios from "axios"
 import absoluteUrl from "next-absolute-url"
 import {
+  ADMIN_ROOMS_FAIL,
+  ADMIN_ROOMS_REQUEST,
+  ADMIN_ROOMS_SUCCESS,
   ALL_ROOMS_FAIL,
   ALL_ROOMS_SUCCESS,
   CLEAR_ERRORS,
+  NEW_REVIEW_FAIL,
+  NEW_REVIEW_REQUEST,
+  NEW_REVIEW_SUCCESS,
+  REVIEW_AVAILABLE_FAIL,
+  REVIEW_AVAILABLE_REQUEST,
+  REVIEW_AVAILABLE_SUCCESS,
   ROOM_DETAILS_SUCCESS,
 } from "../constants/roomTypes"
 
@@ -47,6 +56,77 @@ export const getRoomDetails = (req, id) => async (dispatch) => {
     dispatch({
       type: ROOM_DETAILS_FAIL,
       payload: error.response.data.message,
+    })
+  }
+}
+
+export const newReviewAc = (reviewData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_REVIEW_REQUEST })
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+
+    const { data } = await axios.put(`/api/reviews/reviews`, reviewData, config)
+
+    dispatch({
+      type: NEW_REVIEW_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: NEW_REVIEW_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const checkReviewAvailability = (roomId) => async (dispatch) => {
+  try {
+    dispatch({ type: REVIEW_AVAILABLE_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/reviews/checkReviewAuth?roomId=${roomId}`
+    )
+
+    dispatch({
+      type: REVIEW_AVAILABLE_SUCCESS,
+      payload: data.isReviewAvailable,
+    })
+  } catch (error) {
+    dispatch({
+      type: REVIEW_AVAILABLE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const allAdminRooms = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_ROOMS_REQUEST })
+
+    const { data } = await axios.get(`/api/admin/rooms/rooms`)
+
+    dispatch({
+      type: ADMIN_ROOMS_SUCCESS,
+      payload: data.rooms,
+    })
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ROOMS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     })
   }
 }

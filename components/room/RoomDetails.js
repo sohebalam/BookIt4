@@ -9,7 +9,8 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 import { Carousel } from "react-bootstrap"
-
+import NewReview from "../review/NewReview"
+import ListReviews from "../review/ListReviews"
 import {
   checkBooking,
   getBookedDates,
@@ -222,16 +223,18 @@ const RoomDetails = () => {
                   Pay - £{daysOfStay * room.pricePerNight}
                 </button>
               )}
-
-              {/* <button
-                className="btn btn-block py-3 booking-btn"
-                onClick={newBookingHandler}
-              >
-                Pay
-              </button> */}
             </div>
           </div>
         </div>
+        <NewReview />
+
+        {room.reviews && room.reviews.length > 0 ? (
+          <ListReviews reviews={room.reviews} />
+        ) : (
+          <p>
+            <b>No Reviews on this room</b>
+          </p>
+        )}
       </div>
     </>
   )
