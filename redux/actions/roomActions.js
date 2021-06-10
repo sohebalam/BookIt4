@@ -10,10 +10,16 @@ import {
   NEW_REVIEW_FAIL,
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
+  NEW_ROOM_FAIL,
+  NEW_ROOM_REQUEST,
+  NEW_ROOM_SUCCESS,
   REVIEW_AVAILABLE_FAIL,
   REVIEW_AVAILABLE_REQUEST,
   REVIEW_AVAILABLE_SUCCESS,
   ROOM_DETAILS_SUCCESS,
+  UPDATE_ROOM_FAIL,
+  UPDATE_ROOM_REQUEST,
+  UPDATE_ROOM_SUCCESS,
 } from "../constants/roomTypes"
 
 export const getRooms =
@@ -49,7 +55,16 @@ export const clearErrors = () => async (dispatch) => {
 
 export const getRoomDetails = (req, id) => async (dispatch) => {
   const { origin } = absoluteUrl(req)
-  const { data } = await axios.get(`${origin}/api/rooms/${id}`)
+
+  let url = req
+
+  if (req) {
+    url = `${origin}/api/rooms/${id}`
+  } else {
+    url = `/api/rooms/${id}`
+  }
+
+  const { data } = await axios.get(url)
   try {
     dispatch({ type: ROOM_DETAILS_SUCCESS, payload: data.room })
   } catch (error) {
@@ -123,6 +138,54 @@ export const adminRooms = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ADMIN_ROOMS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const roomNew = (roomData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_ROOM_REQUEST })
+
+    const { data } = await axios.post(`/api/rooms`, roomData)
+
+    dispatch({
+      type: NEW_ROOM_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: NEW_ROOM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const roomUpdate = (id, roomData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_ROOM_REQUEST })
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+
+    const { data } = await axios.put(`/api/rooms/${id}`, roomData, config)
+
+    dispatch({
+      type: UPDATE_ROOM_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ROOM_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

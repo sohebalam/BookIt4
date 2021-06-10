@@ -14,6 +14,11 @@ import {
 import absoluteUrl from "next-absolute-url"
 
 import axios from "axios"
+import {
+  UPDATE_ROOM_FAIL,
+  UPDATE_ROOM_REQUEST,
+  UPDATE_ROOM_SUCCESS,
+} from "../constants/roomTypes"
 
 export const checkBooking =
   (roomId, checkInDate, checkOutDate) => async (dispatch) => {

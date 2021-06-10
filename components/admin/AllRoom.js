@@ -88,7 +88,14 @@ const AllRoom = () => {
         <Loader />
       ) : (
         <>
-          <h1 className="my-5">{`${rooms && rooms.length} Rooms`}</h1>
+          <h1 className="my-5">
+            {`${rooms && rooms.length} Rooms`}
+            <Link href="/admin/rooms/new">
+              <a className="mt-0 btn text-whitw float-right new-room-btn">
+                Create Room
+              </a>
+            </Link>
+          </h1>
           <MDBDataTable data={setRooms()} className="px-3" bordered striped />
         </>
       )}

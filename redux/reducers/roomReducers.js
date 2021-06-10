@@ -14,6 +14,14 @@ import {
   ADMIN_ROOMS_REQUEST,
   ADMIN_ROOMS_FAIL,
   ADMIN_ROOMS_SUCCESS,
+  NEW_ROOM_REQUEST,
+  NEW_ROOM_SUCCESS,
+  NEW_ROOM_FAIL,
+  NEW_ROOM_RESET,
+  UPDATE_ROOM_REQUEST,
+  UPDATE_ROOM_SUCCESS,
+  UPDATE_ROOM_FAIL,
+  UPDATE_ROOM_RESET,
 } from "../constants/roomTypes"
 
 export const allRoomsReducer = (state = { rooms: [] }, action) => {
@@ -49,22 +57,6 @@ export const roomDetailsReducer = (state = { room: {} }, action) => {
   }
 }
 
-// export const newReviewReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case NEW_REVIEW_REQUEST:
-//       return { loading: true }
-//     case NEW_REVIEW_SUCCESS:
-//       return { loading: false, success: action.payload }
-//     case NEW_REVIEW_FAIL:
-//       return { loading: false, error: action.payload }
-//     case NEW_REVIEW_RESET:
-//       return { success: false }
-//     case CLEAR_ERRORS:
-//       return { ...state, error: null }
-//     default:
-//       return state
-//   }
-// }
 export const newReviewReducer = (state = {}, action) => {
   switch (action.type) {
     case NEW_REVIEW_REQUEST:
@@ -129,6 +121,53 @@ export const allAdminRoomsReducer = (state = { room: [] }, action) => {
       return { loading: false, rooms: action.payload }
     case ADMIN_ROOMS_FAIL:
       return { loading: false, error: action.payload }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      }
+    default:
+      return state
+  }
+}
+
+export const newRoomReducer = (state = { room: {} }, action) => {
+  switch (action.type) {
+    case NEW_ROOM_REQUEST:
+      return { loading: true }
+    case NEW_ROOM_SUCCESS:
+      return {
+        loading: false,
+        success: action.payload.success,
+        room: action.payload.room,
+      }
+    case NEW_ROOM_FAIL:
+      return { loading: false, error: action.payload }
+    case NEW_ROOM_RESET:
+      return { success: false }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      }
+    default:
+      return state
+  }
+}
+
+export const updateRoomReducer = (state = { room: {} }, action) => {
+  switch (action.type) {
+    case UPDATE_ROOM_REQUEST:
+      return { loading: true }
+    case UPDATE_ROOM_SUCCESS:
+      return {
+        loading: false,
+        isUpdated: action.payload.success,
+      }
+    case UPDATE_ROOM_FAIL:
+      return { loading: false, error: action.payload }
+    case UPDATE_ROOM_RESET:
+      return { isUpdated: false }
     case CLEAR_ERRORS:
       return {
         ...state,

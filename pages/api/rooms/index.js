@@ -4,7 +4,7 @@ import connectDB from "../../../config/connectDB"
 import { allRooms, newRoom } from "../../../controllers/roomControllers"
 
 import onError from "../../../middlewares/errors"
-import { isAuthenticatedUser, authorizeRoles } from "../../../middlewares/auth"
+import { isAuthenticatedUser, authoriseRoles } from "../../../middlewares/auth"
 
 const handler = nc({ onError })
 
@@ -12,6 +12,6 @@ connectDB()
 
 handler.get(allRooms)
 
-handler.use(isAuthenticatedUser, authorizeRoles("admin")).post(newRoom)
+handler.use(isAuthenticatedUser, authoriseRoles("admin")).post(newRoom)
 
 export default handler

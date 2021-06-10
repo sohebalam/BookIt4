@@ -75,6 +75,7 @@ const getSingleRoom = catchAsyncErrors(async (req, res, next) => {
 
 // Update room details   =>   /api/rooms/:id
 const updateRoom = catchAsyncErrors(async (req, res) => {
+  console.log(req.method)
   let room = await Room.findById(req.query.id)
 
   if (!room) {
