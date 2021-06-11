@@ -123,18 +123,16 @@ export const getBookingDetails = catchAsyncErrors(async (req, res) => {
 
   const room = await Room.findById(bookingdetail.room)
 
-  // const { name, pricePerNight, images, _id } = room2
-
-  // const room = { _id, name, pricePerNight, images }
-
-  // console.log(name, pricePerNight, images)
-  // console.log(room)
-
   let booking = Object.assign(bookingdetail, { room })
-  // console.log(booking)
 
   res.status(200).json({
     success: true,
     booking,
   })
+})
+
+export const allAdminBookings = catchAsyncErrors(async (req, res) => {
+  const bookings = await Booking.find()
+
+  res.status(200).json({ success: true, bookings })
 })

@@ -7,6 +7,9 @@ import {
   ALL_ROOMS_FAIL,
   ALL_ROOMS_SUCCESS,
   CLEAR_ERRORS,
+  DELETE_ROOM_FAIL,
+  DELETE_ROOM_REQUEST,
+  DELETE_ROOM_SUCCESS,
   NEW_REVIEW_FAIL,
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
@@ -186,6 +189,27 @@ export const roomUpdate = (id, roomData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_ROOM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const roomDelete = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_ROOM_REQUEST })
+
+    const { data } = await axios.delete(`/api/rooms/${id}`)
+
+    dispatch({
+      type: DELETE_ROOM_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: DELETE_ROOM_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

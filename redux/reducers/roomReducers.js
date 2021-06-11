@@ -22,6 +22,10 @@ import {
   UPDATE_ROOM_SUCCESS,
   UPDATE_ROOM_FAIL,
   UPDATE_ROOM_RESET,
+  DELETE_ROOM_REQUEST,
+  DELETE_ROOM_SUCCESS,
+  DELETE_ROOM_FAIL,
+  DELETE_ROOM_RESET,
 } from "../constants/roomTypes"
 
 export const allRoomsReducer = (state = { rooms: [] }, action) => {
@@ -168,6 +172,29 @@ export const updateRoomReducer = (state = { room: {} }, action) => {
       return { loading: false, error: action.payload }
     case UPDATE_ROOM_RESET:
       return { isUpdated: false }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      }
+    default:
+      return state
+  }
+}
+
+export const deleteRoomReducer = (state = { room: {} }, action) => {
+  switch (action.type) {
+    case DELETE_ROOM_REQUEST:
+      return { loading: true }
+    case DELETE_ROOM_SUCCESS:
+      return {
+        loading: false,
+        isDeleted: action.payload.success,
+      }
+    case DELETE_ROOM_FAIL:
+      return { loading: false, error: action.payload }
+    case DELETE_ROOM_RESET:
+      return { isDeleted: false }
     case CLEAR_ERRORS:
       return {
         ...state,
