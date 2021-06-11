@@ -1,9 +1,11 @@
 import { combineReducers } from "redux"
 import {
+  adminBookingsReducer,
   bookedDatesReducer,
   bookingCheckReducer,
   bookingDetailsReducer,
   bookingsReducer,
+  deleteBookingReducer,
 } from "./bookingReducers"
 import {
   allAdminRoomsReducer,
@@ -39,6 +41,8 @@ const reducer = combineReducers({
   newRoom: newRoomReducer,
   updateRoom: updateRoomReducer,
   deleteRoom: deleteRoomReducer,
+  adminBookings: adminBookingsReducer,
+  deleteBooking: deleteBookingReducer,
 })
 
 export default reducer

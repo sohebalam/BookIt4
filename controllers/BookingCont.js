@@ -136,3 +136,14 @@ export const allAdminBookings = catchAsyncErrors(async (req, res) => {
 
   res.status(200).json({ success: true, bookings })
 })
+
+export const deleteBookings = catchAsyncErrors(async (req, res) => {
+  const booking = await Booking.findById(req.query.id)
+  if (!booking) {
+    return next(new ErrorHandler("Booking bit found with this ID", 400))
+  }
+
+  await booking.remove()
+
+  res.status(200).json({ success: true, booking })
+})

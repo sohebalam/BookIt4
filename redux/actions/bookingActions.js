@@ -9,16 +9,17 @@ import {
   CLEAR_ERRORS,
   BOOKING_DETAILS_SUCCESS,
   BOOKING_DETAILS_FAIL,
+  ADMIN_BOOKING_REQUEST,
+  ADMIN_BOOKING_SUCCESS,
+  ADMIN_BOOKING_FAIL,
+  DELETE_BOOKING_REQUEST,
+  DELETE_BOOKING_SUCCESS,
+  DELETE_BOOKING_FAIL,
 } from "../constants/bookingTypes"
 
 import absoluteUrl from "next-absolute-url"
 
 import axios from "axios"
-import {
-  UPDATE_ROOM_FAIL,
-  UPDATE_ROOM_REQUEST,
-  UPDATE_ROOM_SUCCESS,
-} from "../constants/roomTypes"
 
 export const checkBooking =
   (roomId, checkInDate, checkOutDate) => async (dispatch) => {
@@ -115,6 +116,48 @@ export const bookingDetails = (authCookie, req, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: BOOKING_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getAdminBookings = () => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_BOOKING_REQUEST })
+
+    const { data } = await axios.get(`/api/admin/bookings/bookings`)
+
+    dispatch({
+      type: ADMIN_BOOKING_SUCCESS,
+      payload: data.bookings,
+    })
+  } catch (error) {
+    dispatch({
+      type: ADMIN_BOOKING_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const bookingDelete = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_BOOKING_REQUEST })
+
+    const { data } = await axios.delete(`/api/admin/bookings/${id}`)
+
+    dispatch({
+      type: DELETE_BOOKING_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: DELETE_BOOKING_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
