@@ -117,24 +117,30 @@ export const forgotPassword = async (req, res, next) => {
   }
 }
 
-
 // Reset password   =>   /api/password/reset/:token
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
-
   // Hash URL token
-  const resetPasswordToken = crypto.createHash('sha256').update(req.query.token).digest('hex');
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.query.token)
+    .digest("hex")
 
   const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() }
-  });
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  })
 
   if (!user) {
-      return next(new ErrorHandler('Password reset token is invalid or has been expired', 400))
+    return next(
+      new ErrorHandler(
+        "Password reset token is invalid or has been expired",
+        400
+      )
+    )
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-      return next(new ErrorHandler('Password does not match', 400))
+    return next(new ErrorHandler("Password does not match", 400))
   }
 
   // Setup the new password
@@ -143,24 +149,52 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   user.resetPasswordToken = undefined
   user.resetPasswordExpire = undefined
 
-  await user.save();
+  await user.save()
 
   res.status(200).json({
-      success: true,
-      message: 'Password updated successfully'
+    success: true,
+    message: "Password updated successfully",
   })
-
 })
 
-
 // Get all users   =>   /api/admin/users
-const allAdminUsers = catchAsyncErrors(async (req, res) => {
-
-  const users = await User.find();
+export const allAdminUsers = catchAsyncErrors(async (req, res) => {
+  const users = await User.find()
 
   res.status(200).json({
-      success: true,
-      users
+    success: true,
+    users,
+  })
+})
+
+export const getUserDetails = catchAsyncErrors(async (req, res) => {
+  console.log(req.method)
+  const user = await User.findById(req.query.id)
+
+  if (!user) {
+    return next(new ErrorHandler("User not found with this ID", 400))
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+export const updateUserDetails = catchAsyncErrors(async (req, res) => {
+  const newUserData = {
+    ame: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  }
+
+  const user = await User.findByIdAndUpdate(req.query.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
   })
 
+  res.status(200).json({
+    success: true,
+  })
 })

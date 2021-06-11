@@ -18,10 +18,13 @@ import {
   updateRoomReducer,
 } from "./roomReducers"
 import {
+  allUsersReducer,
   authReducer,
   forgotPasswordReducer,
   loadUserReducer,
   userReducer,
+  updateUserReducer,
+  userDetailsReducer,
 } from "./userReducers"
 
 const reducer = combineReducers({
@@ -43,6 +46,9 @@ const reducer = combineReducers({
   deleteRoom: deleteRoomReducer,
   adminBookings: adminBookingsReducer,
   deleteBooking: deleteBookingReducer,
+  allUsers: allUsersReducer,
+  updateUser: updateUserReducer,
+  userDetails: userDetailsReducer,
 })
 
 export default reducer
