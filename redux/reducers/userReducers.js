@@ -26,6 +26,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_RESET,
   UPDATE_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
 } from "../constants/userType"
 
 export const loadUserReducer = (
@@ -200,6 +203,29 @@ export const userDetailsReducer = (state = { user: [] }, action) => {
       return { loading: false, user: action.payload }
     case USER_DETAILS_FAIL:
       return { loading: false, error: action.payload }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      }
+    default:
+      return state
+  }
+}
+
+export const deleteUserReducer = (state = { user: [] }, action) => {
+  switch (action.type) {
+    case DELETE_USER_REQUEST:
+      return { loading: true }
+    case DELETE_USER_SUCCESS:
+      return { loading: false, isDeleted: action.payload }
+    case DELETE_USER_FAIL:
+      return { loading: false, error: action.payload }
+    case UPDATE_USER_RESET:
+      return {
+        loading: false,
+        isDeleted: false,
+      }
     case CLEAR_ERRORS:
       return {
         ...state,

@@ -7,6 +7,7 @@ import {
   isAuthenticatedUser,
 } from "../../../../middlewares/auth"
 import {
+  deleteUser,
   getUserDetails,
   updateUserDetails,
 } from "../../../../controllers/authControllers"
@@ -17,5 +18,6 @@ const handler = nc({ onError })
 
 handler.use(isAuthenticatedUser, authoriseRoles("admin")).get(getUserDetails)
 handler.use(isAuthenticatedUser, authoriseRoles("admin")).put(updateUserDetails)
+handler.use(isAuthenticatedUser, authoriseRoles("admin")).delete(deleteUser)
 
 export default handler

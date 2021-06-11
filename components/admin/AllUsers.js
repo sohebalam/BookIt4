@@ -5,10 +5,15 @@ import Link from "next/link"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
-import { clearErrors, getAllUsers } from "../../redux/actions/userActions"
+import {
+  clearErrors,
+  getAllUsers,
+  userDelete,
+} from "../../redux/actions/userActions"
 
 import { MDBDataTable } from "mdbreact"
 import Loader from "../layout/Loader"
+import { DELETE_USER_RESET } from "../../redux/constants/userType"
 
 const AllUsers = () => {
   const dispatch = useDispatch()
@@ -17,13 +22,24 @@ const AllUsers = () => {
   const allUsers = useSelector((state) => state.allUsers)
   const { loading, error, users } = allUsers
 
+  const deleteUser = useSelector((state) => state.deleteUser)
+  const { error: deleteError, isDeleted } = deleteUser
+
   useEffect(() => {
     dispatch(getAllUsers())
     if (error) {
       toast.error(error)
       dispatch(clearErrors())
     }
-  }, [dispatch])
+    if (deleteError) {
+      toast.error(deleteError)
+      dispatch(clearErrors())
+    }
+    if (isDeleted) {
+      router.push("/admin/users/users")
+      dispatch({ type: DELETE_USER_RESET })
+    }
+  }, [dispatch, error, isDeleted])
 
   const setUsers = () => {
     const data = {
@@ -71,7 +87,10 @@ const AllUsers = () => {
                   <i className="fa fa-pencil"></i>
                 </a>
               </Link>
-              <button className="btn btn-danger mx-2">
+              <button
+                className="btn btn-danger mx-2"
+                onClick={() => deleteUserHandler(user._id)}
+              >
                 <i className="fa fa-trash"></i>
               </button>
             </>
@@ -81,9 +100,9 @@ const AllUsers = () => {
     return data
   }
 
-  //   const deleteUserHandler = (id) => {
-  //     dispatch(userDelete(id))
-  //   }
+  const deleteUserHandler = (id) => {
+    dispatch(userDelete(id))
+  }
 
   return (
     <div className="container container-fluid">

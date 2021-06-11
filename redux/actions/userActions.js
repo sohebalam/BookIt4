@@ -25,6 +25,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
 } from "../constants/userType"
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -215,6 +218,27 @@ export const userUpdate = (id, userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_USER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const userDelete = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_USER_REQUEST })
+
+    const { data } = await axios.delete(`/api/admin/users/${id}`)
+
+    dispatch({
+      type: DELETE_USER_SUCCESS,
+      payload: data.success,
+    })
+  } catch (error) {
+    dispatch({
+      type: DELETE_USER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

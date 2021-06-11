@@ -25,6 +25,7 @@ import {
   userReducer,
   updateUserReducer,
   userDetailsReducer,
+  deleteUserReducer,
 } from "./userReducers"
 
 const reducer = combineReducers({
@@ -49,6 +50,7 @@ const reducer = combineReducers({
   allUsers: allUsersReducer,
   updateUser: updateUserReducer,
   userDetails: userDetailsReducer,
+  deleteUser: deleteUserReducer,
 })
 
 export default reducer
