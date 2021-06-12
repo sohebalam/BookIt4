@@ -1,5 +1,5 @@
 import nc from "next-connect"
-import { checkRoomAvail } from "../../../controllers/bookingCont"
+import { checkRoomAvail } from "../../../controllers/bookingControllers"
 import connectDB from "../../../config/connectDB"
 import onError from "../../../middlewares/errors"
 

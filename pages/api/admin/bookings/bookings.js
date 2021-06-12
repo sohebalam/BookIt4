@@ -7,7 +7,7 @@ import {
   isAuthenticatedUser,
 } from "../../../../middlewares/auth"
 
-import { allAdminBookings } from "../../../../controllers/bookingCont"
+import { allAdminBookings } from "../../../../controllers/bookingControllers"
 
 connectDB()
 

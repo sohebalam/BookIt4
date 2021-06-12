@@ -4,7 +4,7 @@ import connectDB from "../../../../config/connectDB"
 import onError from "../../../../middlewares/errors"
 import { isAuthenticatedUser } from "../../../../middlewares/auth"
 import { authoriseRoles } from "../../../../middlewares/auth"
-import { deleteBookings } from "../../../../controllers/bookingCont"
+import { deleteBookings } from "../../../../controllers/bookingControllers"
 
 const handler = nc({ onError })
 
