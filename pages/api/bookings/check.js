@@ -1,12 +1,12 @@
-import nc from "next-connect";
-import { checkRoomAvail } from "../../../controllers/BookingCont";
-import connectDB from "../../../config/connectDB";
-import onError from "../../../middlewares/errors";
+import nc from "next-connect"
+import { checkRoomAvail } from "../../../controllers/bookingCont"
+import connectDB from "../../../config/connectDB"
+import onError from "../../../middlewares/errors"
 
-connectDB();
+connectDB()
 
-const handler = nc({ onError });
+const handler = nc({ onError })
 
-handler.get(checkRoomAvail);
+handler.get(checkRoomAvail)
 
-export default handler;
+export default handler
