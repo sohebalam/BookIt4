@@ -11,10 +11,12 @@ import {
   allAdminRoomsReducer,
   allRoomsReducer,
   checkReviewReducer,
+  deleteReviewsReducer,
   deleteRoomReducer,
   newReviewReducer,
   newRoomReducer,
   roomDetailsReducer,
+  roomReviewsReducer,
   updateRoomReducer,
 } from "./roomReducers"
 import {
@@ -51,6 +53,8 @@ const reducer = combineReducers({
   updateUser: updateUserReducer,
   userDetails: userDetailsReducer,
   deleteUser: deleteUserReducer,
+  roomReviews: roomReviewsReducer,
+  deleteReviews: deleteReviewsReducer,
 })
 
 export default reducer
