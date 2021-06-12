@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
 import { clearErrors, roomNew } from "../../redux/actions/roomActions"
-import { NEW_ROOM_RESET } from "../../../bookit/redux/constants/roomTypes"
+import { NEW_ROOM_RESET } from "../../redux/constants/roomTypes"
 
 const NewRoom = () => {
   const [name, setName] = useState()

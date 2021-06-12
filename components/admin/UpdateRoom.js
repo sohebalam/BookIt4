@@ -12,7 +12,7 @@ import {
   roomUpdate,
   getRoomDetails,
 } from "../../redux/actions/roomActions"
-import { NEW_ROOM_RESET } from "../../../bookit/redux/constants/roomTypes"
+import { UPDATE_ROOM_RESET } from "../../redux/constants/roomTypes"
 
 const UpdateRoom = () => {
   const [name, setName] = useState("")
