@@ -1,5 +1,5 @@
 import nc from "next-connect"
-import { getBookingDetails } from "../../../controllers/bookingControllersrollers"
+import { getBookingDetails } from "../../../controllers/bookingControllers"
 import connectDB from "../../../config/connectDB"
 import onError from "../../../middlewares/errors"
 import { isAuthenticatedUser } from "../../../middlewares/auth"
