@@ -46,6 +46,6 @@ module.exports = (phase) => {
     pSMTP_PASSWORD: "16a8204064797d",
     STMP_FROM_NAME: "BookIT",
     STMP_FROM_EMAIL: "noreply@bookit.com",
-    NEXTAUTH_URL: "https://bookit.vercel.app",
+    NEXTAUTH_URL: "https://book-it4.vercel.app",
   }
 }
