@@ -259,7 +259,6 @@ export const reviewDelete = (id, roomId) => async (dispatch) => {
       payload: data.success,
     })
   } catch (error) {
-    console.log(error)
     dispatch({
       type: DELETE_REVIEW_FAIL,
       payload:

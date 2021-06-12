@@ -31,6 +31,11 @@ module.exports = (phase) => {
       CLOUDINARY_CLOUD_NAME: "dfreqlhvc",
       CLOUDINARY_API_KEY: "765885894368911",
       CLOUDINARY_API_SECRET: "_kxbMRYiZy7UN_qVM8E3FndXTOg",
+      STRIPE_API_KEY:
+        "pk_test_51H3gVIARrn8JZG3gx2b4WTqj6pl7AsVTUfY3e8u8u8vdRnZ4uCGrFOOD0wbm1lubTqMbQxlZtpPIjx49EXY8MNpo00BzYLddFg",
+      STRIPE_SECRET_KEY:
+        "sk_test_51H3gVIARrn8JZG3gwQWW62G9iesk1qzmlKgQCkPbGSRbPLDefCHCysoUt6g9fU8CtRvUMLVygSry0oJloByXisFl00ZyhHxNGL",
+      STRIPE_WEBHOOK_SECRET: "whsec_XxWu2zvLUYk1V2m4ut1tC4Ad3RpXqSh0",
     },
     images: {
       domains: ["res.cloudinary.com"],
@@ -41,5 +46,6 @@ module.exports = (phase) => {
     pSMTP_PASSWORD: "16a8204064797d",
     STMP_FROM_NAME: "BookIT",
     STMP_FROM_EMAIL: "noreply@bookit.com",
+    NEXTAUTH_URL='https://bookit.vercel.app'
   }
 }
